@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "615274637749",
+    "firebase_url": "https://trashguard-a0000.firebaseio.com",
+    "project_id": "trashguard-a0000",
+    "storage_bucket": "trashguard-a0000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615274637749:android:5eedd25f292533cf",
+        "android_client_info": {
+          "package_name": "com.trash.trashguard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615274637749-fso24kltl7grko280fip0n57mc6u0tko.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.trash.trashguard",
+            "certificate_hash": "92a568845e43230c3e31686e7802a21460207637"
+          }
+        },
+        {
+          "client_id": "615274637749-icu0qe6kcav99qujlak4bqooe8701s5v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmRwmW4qv3rIOqR3ZGW9WEJ606oKziU-M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615274637749-icu0qe6kcav99qujlak4bqooe8701s5v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
