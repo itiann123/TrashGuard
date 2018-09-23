@@ -1,5 +1,6 @@
 package com.trashguard.trashgaurd.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,8 +51,8 @@ public class SignUpView extends AppCompatActivity implements View.OnClickListene
 //                email_field = (AutoCompleteTextView) findViewById(R.id.email);
 //                password_field = (EditText) findViewById(R.id.password);
 //
-//               sign_up_button=(Button) findViewById(R.id.sign_up_button);
-//               sign_up_button.setOnClickListener(this);
+               sign_up_button=(Button) findViewById(R.id.email_sign_up_button);
+               sign_up_button.setOnClickListener(this);
 //               signUpPresenter = new SignUpPresenter(this);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -79,6 +80,15 @@ public class SignUpView extends AppCompatActivity implements View.OnClickListene
 //                    Log.d("Email:", String.valueOf(email));
 //                    Log.d("Password:", String.valueOf(password));
 //                    signUpPresenter.registerUser(email ,password);
+                case R.id.email_sign_up_button:
+                    sign_up_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(SignUpView.this,HomeView.class);
+                            startActivity(i);
+                        }
+                    });
+                    break;
 //
             }
 //                break;

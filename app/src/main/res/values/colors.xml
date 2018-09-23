@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="login_Button">#4C4C4C</color>
     <color name="text_color">#707070 </color>
+    <color name="oval_color">#80AE43</color>
 </resources>

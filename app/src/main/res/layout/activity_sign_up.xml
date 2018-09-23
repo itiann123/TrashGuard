@@ -178,7 +178,7 @@
                             android:textSize="18dp" />
 
                         <Button
-                            android:id="@+id/email_sign_in_button"
+                            android:id="@+id/email_sign_up_button"
                             android:layout_width="match_parent"
                             android:layout_height="33dp"
                             android:layout_marginRight="60dp"
