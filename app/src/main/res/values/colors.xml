@@ -6,4 +6,14 @@
     <color name="login_Button">#4C4C4C</color>
     <color name="text_color">#707070 </color>
     <color name="oval_color">#80AE43</color>
+    <color name="completed">#6CF263</color>
+    <color name="white">#FFFFFF</color>
+    <color name="onfocus">#AE595A</color>
+    <color name="maroon">#AE595A</color>
+    <color name="background">#E8E8E8</color>
+    <color name="toolbar">#FFD53B</color>
+    <color name="black">#000</color>
+    <color name="grey">#F0F0F0</color>
+    <color name="anothergrey">#C9C9C9</color>
+    <color name="darkergrey">#999999</color>
 </resources>

@@ -2,12 +2,12 @@
     <string name="app_name">TrashGuard</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">email</string>
-    <string name="prompt_name">name</string>
-    <string name="prompt_phone">phone</string>
-    <string name="prompt_password">password</string>
-    <string name="action_sign_in">Log In</string>
-    <string name="sign_up">SIGN UP</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_phone">Phone</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">LOG IN</string>
+    <string name="action_sign_up">SIGN UP</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -17,4 +17,7 @@
         completions."
     </string>
     <string name="title_activity_home_view">Map</string>
+    <string name="completed">COMPLETED</string>
+    <string name="pending">PENDING</string>
+    <string name="declined">DECLINED</string>
 </resources>

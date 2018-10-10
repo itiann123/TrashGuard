@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-
-    android:background="@drawable/mainbackground"
-    tools:context="com.trashguard.trashgaurd.View.SignUpView">
+    tools:context="com.trashguard.trashgaurd.View.LogInSignUpView">
 
     <!-- Login progress -->
 
     <ScrollView
-        android:id="@+id/sign_up_form"
+        android:id="@+id/login_form"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,8 +31,8 @@
 
             <ImageView
                 android:id="@+id/tg_logo"
-                android:layout_width="291dp"
-                android:layout_height="128dp"
+                android:layout_width="315dp"
+                android:layout_height="188dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
 
@@ -34,13 +40,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/tg_logo" />
+                app:srcCompat="@drawable/tg_logo_black" />
 
             <LinearLayout
                 android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,26 +54,27 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/textInputLayout1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColorHint="@color/text_color"
+                        android:textColorHint="@color/black"
                         android:theme="@style/Autocomplete"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <AutoCompleteTextView
+
                             android:id="@+id/name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/prompt_name"
-                            android:inputType="text"
+                            android:textColorHint="@color/black"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:theme="@style/Autocomplete"/>
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -77,52 +83,62 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColorHint="@color/text_color"
+                        android:textColorHint="@color/black"
                         android:theme="@style/Autocomplete"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout1">
 
                         <AutoCompleteTextView
+
                             android:id="@+id/phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/prompt_phone"
                             android:inputType="phone"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:theme="@style/Autocomplete"
+                            android:textColorHint="@color/black" />
 
                     </android.support.design.widget.TextInputLayout>
+
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/textInputLayout3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColorHint="@color/text_color"
+                        android:textColorHint="@color/black"
                         android:theme="@style/Autocomplete"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
                         <AutoCompleteTextView
+
                             android:id="@+id/email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/prompt_email"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:theme="@style/Autocomplete"
+                            android:textColorHint="@color/black" />
 
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/textInputLayout4"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:textColorHint="@color/text_color"
+                        android:textColorHint="@color/black"
                         android:theme="@style/Autocomplete"
+                        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
                         <EditText
@@ -135,64 +151,37 @@
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:singleLine="true" />
+                            android:singleLine="true"
+                            android:theme="@style/Autocomplete"
+                            android:textColorHint="@color/black" />
 
                     </android.support.design.widget.TextInputLayout>
-
-                    <TextView
-                        android:id="@+id/textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/text_color"
-                        android:text="By clicking sign up, you agree to the terms and conditions."
-                        android:textAlignment="center"
-                        android:textSize="10dp"
-                        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4" />
 
                     <LinearLayout
                         android:id="@+id/linearLayout4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
                         android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
-                        <TextView
-                            android:id="@+id/back_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="60dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_weight="1"
-                            android:textColor="@color/text_color"
-                            android:fontFamily="@font/segoe_ui"
-                            android:text="BACK"
-                            android:textSize="18dp" />
-
                         <Button
-                            android:id="@+id/email_sign_up_button"
+                            android:id="@+id/email_sign_in_button"
                             android:layout_width="match_parent"
                             android:layout_height="33dp"
-                            android:layout_marginRight="60dp"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="15dp"
                             android:layout_weight="1"
                             android:background="@drawable/rounded_button"
                             android:fontFamily="@font/segoe_ui"
-                            android:text="@string/sign_up" />
+                            android:textColor="@color/black"
+                            android:text="@string/action_sign_up" />
 
                     </LinearLayout>
-
 
                 </android.support.constraint.ConstraintLayout>
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
