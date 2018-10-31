@@ -32,8 +32,6 @@ public class LogInFragment  extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_login,container,false);
 
-
-
         return view;
     }
 }

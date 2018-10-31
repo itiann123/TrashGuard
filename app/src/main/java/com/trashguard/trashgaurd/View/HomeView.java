@@ -29,6 +29,7 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private ImageButton add_complain;
     private Toolbar toolbar;
+    private ImageView profilepic;
     private ImageView history_button;
     private ImageView home_button;
     private ImageView notifications_button;
@@ -72,6 +73,15 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeView.this, NotificationsView.class);
+                startActivity(i);
+            }
+        });
+
+        profilepic = (ImageView) findViewById(R.id.profile_pic4);
+        profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeView.this,ProfileView.class);
                 startActivity(i);
             }
         });

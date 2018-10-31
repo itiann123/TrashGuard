@@ -4,13 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
-
 import com.trash.trashguard.R;
-
 import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment{
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
