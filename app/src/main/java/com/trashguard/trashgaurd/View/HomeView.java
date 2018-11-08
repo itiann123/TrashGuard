@@ -1,14 +1,18 @@
 package com.trashguard.trashgaurd.View;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,9 +21,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,8 +39,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.trash.trashguard.R;
+
+import java.util.List;
 
 public class HomeView extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     private static final int MY_REQUEST_INT = 177;
@@ -37,6 +50,7 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback, V
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final float DEFAULT_ZOOM = 15f;
+    private GoogleApiClient googleApiClient;
     private GoogleMap mMap;
     private ImageButton add_complain;
     private Toolbar toolbar;
@@ -56,6 +70,42 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback, V
         initButtons();
         initMap();
 //        getLocationPermission();
+        checkGPS();
+
+        add_complain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeView.this, AddComplainView.class);
+                startActivity(i);
+            }
+        });
+        notifications_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeView.this, NotificationsView.class);
+                startActivity(i);
+            }
+        });
+        profilepic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeView.this, ProfileView.class);
+                startActivity(i);
+            }
+        });
+        history_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeView.this, ComplaintHistoryView.class);
+                startActivity(i);
+            }
+        });
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeView.this, "Already home.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -109,6 +159,48 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback, V
     private void moveCamera(LatLng latLng, float zoom) {
         Log.d(TAG, "moveCamera: moving camera to: lat:" + latLng.latitude + ",long :" + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
+
+    private void checkGPS(){
+        if(!hasGPSDevice(HomeView.this)){
+            Toast.makeText(HomeView.this,"Gps not Supported",Toast.LENGTH_SHORT).show();
+        }
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && hasGPSDevice(HomeView.this)) {
+            Toast.makeText(HomeView.this,"Gps not enabled",Toast.LENGTH_SHORT).show();
+            enableLoc();
+        }else{
+            Toast.makeText(HomeView.this,"Gps already enabled",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void turnGPSOn()
+    {
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(!provider.contains("gps"))
+        { //if gps is disabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
+        }
+    }
+
+    private void turnGPSOff()
+    {
+        String provider = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+
+        if(provider.contains("gps"))
+        { //if gps is enabled
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            sendBroadcast(poke);
+        }
     }
 
 //    private void getLocationPermission(){
@@ -182,7 +274,7 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback, V
 //        LatLng house = new LatLng(10.299506, 123.870354);
 //        mMap.addMarker(new MarkerOptions().position(house).title("Marker in Sydney"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(house));
-        getDeviceLocation();
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -207,53 +299,143 @@ public class HomeView extends AppCompatActivity implements OnMapReadyCallback, V
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.add_complain:
-                    add_complain.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent i = new Intent(HomeView.this, AddComplainView.class);
-                            startActivity(i);
-                        }
-                    });
-                    break;
 
-            case R.id.notification:
-                    notifications_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent i = new Intent(HomeView.this, NotificationsView.class);
-                            startActivity(i);
-                        }
-                    });
-                    break;
-            case R.id.profile_pic:
-                    profilepic.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(HomeView.this,ProfileView.class);
-                            startActivity(i);
-                        }
-                    });
-                    break;
-            case R.id.history:
-                    history_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent i = new Intent(HomeView.this, ComplaintHistoryView.class);
-                            startActivity(i);
-                        }
-                    });
-                    break;
-            case R.id.home:
-                    home_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(HomeView.this, "Already home.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    break;
+        if(v.getId() == R.id.add_complain) {
+                add_complain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+            Intent i = new Intent(HomeView.this, AddComplainView.class);
+            startActivity(i);
+                    }
+                });
         }
+
+
+        if(v.getId() == R.id.notification) {
+                notifications_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+            Intent i = new Intent(HomeView.this, NotificationsView.class);
+            startActivity(i);
+                    }
+                });
+        }
+
+        if(v.getId() == R.id.profile_pic) {
+                profilepic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+            Intent i = new Intent(HomeView.this, ProfileView.class);
+            startActivity(i);
+                    }
+                });
+        }
+
+        if(v.getId() == R.id.history) {
+                history_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+            Intent i = new Intent(HomeView.this, ComplaintHistoryView.class);
+            startActivity(i);
+                    }
+                });
+        }
+
+        if(v.getId() == R.id.home) {
+                home_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(HomeView.this, "Already home.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private boolean hasGPSDevice(Context context) {
+        final LocationManager mgr = (LocationManager) context
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (mgr == null)
+            return false;
+        final List<String> providers = mgr.getAllProviders();
+        if (providers == null)
+            return false;
+        return providers.contains(LocationManager.GPS_PROVIDER);
+    }
+
+    private void enableLoc() {
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                        @Override
+                        public void onConnected(Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onConnectionSuspended(int i) {
+                            googleApiClient.connect();
+                        }
+                    })
+                    .addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener() {
+                        @Override
+                        public void onConnectionFailed(ConnectionResult connectionResult) {
+
+                            Log.d("Location error","Location error " + connectionResult.getErrorCode());
+                        }
+                    }).build();
+            googleApiClient.connect();
+
+            LocationRequest locationRequest = LocationRequest.create();
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            locationRequest.setInterval(30 * 1000);
+            locationRequest.setFastestInterval(5 * 1000);
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(locationRequest);
+
+            builder.setAlwaysShow(true);
+
+            PendingResult<LocationSettingsResult> result =
+                    LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+            result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+                @Override
+                public void onResult(LocationSettingsResult result) {
+                    final Status status = result.getStatus();
+                    switch (status.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                // Show the dialog by calling startResolutionForResult(),
+                                // and check the result in onActivityResult().
+                                status.startResolutionForResult(HomeView.this, LOCATION_PERMISSION_REQUEST_CODE);
+                                getDeviceLocation();
+                            } catch (IntentSender.SendIntentException e) {
+                                // Ignore the error.
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE:
+                switch (resultCode) {
+                    case Activity.RESULT_CANCELED: {
+                        // The user was asked to change settings, but chose not to
+                        finish();
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+                break;
+        }
+
     }
 }
 
